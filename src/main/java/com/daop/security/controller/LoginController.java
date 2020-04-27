@@ -1,8 +1,15 @@
 package com.daop.security.controller;
 
 import com.daop.security.customexception.DefinitionException;
+import com.daop.security.customexception.ErrorEnum;
 import com.daop.security.util.ResultUtil;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -14,49 +21,16 @@ import org.springframework.web.bind.annotation.RestController;
  **/
 @RestController
 public class LoginController {
-    @GetMapping("/login")
-    public ResultUtil login() {
-        ResultUtil result = new ResultUtil();
-        User user = new User();
-        user.setUserId(10);
-        user.setUserName("张三");
-        result.setCode(200);
-        result.setMessage("Success");
-        result.setResult(user);
-        return result;
-    }
-
-    @GetMapping("/exceptionTest")
-    public ResultUtil deException() {
-        throw new DefinitionException(400, "出错了");
-    }
-
-    @GetMapping("/exceptionTest1")
-    public ResultUtil exception() {
-        ResultUtil resultUtil = new ResultUtil();
-        int a = 1 / 0;
-        return resultUtil;
-    }
-}
-
-class User {
-    private Integer userId;
-    private String userName;
-
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
+    @PostMapping("/login")
+    public ResultUtil login(String userName, String password) {
+        //获取当前用户
+        Subject subject = SecurityUtils.getSubject();
+        UsernamePasswordToken token = new UsernamePasswordToken(userName, password);
+        try {
+            subject.login(token);
+            return new ResultUtil(200, "登录成功", token);
+        } catch (AuthenticationException e) {
+            return ResultUtil.otherError(ErrorEnum.NO_VERIFY);
+        }
     }
 }

@@ -13,6 +13,7 @@ public enum ErrorEnum {
      */
     SUCCESS(200, "OK"),
     NO_PERMISSION(403, "您暂无权限访问"),
+    NO_VERIFY(402,"用户名或密码错误"),
     NO_AUTH(401, "请您先登录"),
     NOT_FOUND(404, "资源未找到"),
     INTERNAL_SERVER_ERROR(500, "服务器崩溃啦");

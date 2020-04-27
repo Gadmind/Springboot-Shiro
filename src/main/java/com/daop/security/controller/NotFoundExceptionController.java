@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @AUTHOR: Daop
  **/
 @RestController
-public class NotFoundException implements ErrorController {
+public class NotFoundExceptionController implements ErrorController {
     /**
      * 全局错误路径
      */

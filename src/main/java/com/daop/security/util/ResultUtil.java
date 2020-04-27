@@ -18,12 +18,24 @@ public class ResultUtil<T> {
     public ResultUtil() {
     }
 
+    /**
+     * 自定义返回结果
+     *
+     * @param code    状态码
+     * @param message 提示信息
+     * @param result  数据结果
+     */
     public ResultUtil(Integer code, String message, T result) {
         this.code = code;
         this.message = message;
         this.result = result;
     }
 
+    /**
+     * 自定义异常返回结果
+     * @param defineException 自定义异常
+     * @return 结果数据
+     */
     public static ResultUtil defineError(DefinitionException defineException) {
         ResultUtil result = new ResultUtil();
         result.setCode(defineException.getErrorCode());
@@ -32,7 +44,12 @@ public class ResultUtil<T> {
         return result;
     }
 
-    public static ResultUtil otherError(ErrorEnum errorEnum){
+    /**
+     * 其他异常返回结果
+     * @param errorEnum 自定义异常枚举
+     * @return 结果数据
+     */
+    public static ResultUtil otherError(ErrorEnum errorEnum) {
         ResultUtil result = new ResultUtil();
         result.setCode(errorEnum.getErrorCode());
         result.setMessage(errorEnum.getErrorMessage());

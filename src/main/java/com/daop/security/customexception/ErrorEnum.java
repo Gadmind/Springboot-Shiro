@@ -9,7 +9,7 @@ package com.daop.security.customexception;
  **/
 public enum ErrorEnum {
     /**
-     * 成功状态
+     * 操作错误定义
      */
     SUCCESS(200, "OK"),
     NO_PERMISSION(403, "您暂无权限访问"),
@@ -17,7 +17,7 @@ public enum ErrorEnum {
     NOT_FOUND(404, "资源未找到"),
     INTERNAL_SERVER_ERROR(500, "服务器崩溃啦");
     /**
-     * 错误码
+     * 错误状态码
      */
     private final Integer errorCode;
     /**

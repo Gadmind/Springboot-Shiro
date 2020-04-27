@@ -1,4 +1,4 @@
-package com.daop.security.interceptor;
+package com.daop.security.customexception;
 
 import com.daop.security.customexception.DefinitionException;
 import com.daop.security.customexception.ErrorEnum;
@@ -17,12 +17,24 @@ import org.springframework.web.servlet.NoHandlerFoundException;
  **/
 @ControllerAdvice(basePackages = "com.daop.security")
 public class GlobalExceptionHandler {
+    /**
+     * 自定义返回错误结果
+     *
+     * @param e 自定义的异常类
+     * @return 结果工具类
+     */
     @ExceptionHandler(value = DefinitionException.class)
     @ResponseBody
     public ResultUtil exceptionHandler(DefinitionException e) {
         return ResultUtil.defineError(e);
     }
 
+    /**
+     * 其他异常处理方法
+     *
+     * @param e 其他异常
+     * @return 结果工具类
+     */
     @ExceptionHandler(value = Exception.class)
     @ResponseBody
     public ResultUtil otherExceptionHandler(Exception e) {

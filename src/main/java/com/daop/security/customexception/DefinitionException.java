@@ -8,7 +8,13 @@ package com.daop.security.customexception;
  * @AUTHOR: Daop
  **/
 public class DefinitionException extends RuntimeException {
+    /**
+     * 错误码
+     */
     protected Integer errorCode;
+    /**
+     * 错误信息
+     */
     protected String errorMessage;
 
     public DefinitionException() {

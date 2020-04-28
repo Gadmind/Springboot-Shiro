@@ -33,24 +33,28 @@ public class UserRealm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         logger.info("=====用户授权=====");
+
         return null;
     }
 
     /**
-     * @param token
-     * @return
-     * @throws AuthenticationException
+     * @param token 权限令牌
+     * @return 简单的认证信息
+     * @throws AuthenticationException 认证失败
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         logger.info("====用户权限认证===");
-
-        UsernamePasswordToken authenticationToken = (UsernamePasswordToken) token;
-        SysUser sysUser = userMapper.selectByUserName(authenticationToken.getUsername());
-        logger.info(sysUser.toString());
-        if (!authenticationToken.getUsername().equals(sysUser.getUsername())) {
+        if (null == token.getPrincipal()) {
             return null;
         }
-        return new SimpleAuthenticationInfo("", sysUser.getPassword(), "");
+        //获取到用户名
+        String principal = token.getPrincipal().toString();
+        //同数据库做比对
+        SysUser sysUser = userMapper.selectByUserName(principal);
+        if (!principal.equals(sysUser.getUsername())) {
+            return null;
+        }
+        return new SimpleAuthenticationInfo(principal, sysUser.getPassword(), getName());
     }
 }

@@ -10,7 +10,7 @@ import com.daop.security.entity.SysUser;
  * @DATE: 2020-04-28 21:06
  * @AUTHOR: Daop
  **/
-public interface SysUserMapper {
+public interface SysUserMapper extends BaseMapper<SysUser> {
 
     int deleteByPrimaryKey(Integer id);
 
@@ -19,6 +19,7 @@ public interface SysUserMapper {
     int insertSelective(SysUser record);
 
     SysUser selectByPrimaryKey(Integer id);
+
     SysUser selectByUserName(String userName);
 
     int updateByPrimaryKeySelective(SysUser record);

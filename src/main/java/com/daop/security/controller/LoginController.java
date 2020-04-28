@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class LoginController {
     @PostMapping("/login")
     public ResultUtil login(String userName, String password) {
+        System.out.println(userName+""+password);
         //获取当前用户
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(userName, password);

@@ -1,11 +1,15 @@
 package com.daop.security.shiro;
 
+import com.daop.security.entity.SysUser;
+import com.daop.security.mapper.SysUserMapper;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import sun.security.provider.MD5;
 
 /**
  * @BelongsProject: security
@@ -14,7 +18,10 @@ import org.slf4j.LoggerFactory;
  * @DATE: 2020-04-27 22:10
  * @AUTHOR: Daop
  **/
+
 public class UserRealm extends AuthorizingRealm {
+    @Autowired
+    SysUserMapper userMapper;
     Logger logger = LoggerFactory.getLogger(UserRealm.class);
 
     /**
@@ -37,12 +44,13 @@ public class UserRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         logger.info("====用户权限认证===");
-        String name = "root";
-        String password = "123456";
+
         UsernamePasswordToken authenticationToken = (UsernamePasswordToken) token;
-        if (!authenticationToken.getUsername().equals(name)){
+        SysUser sysUser = userMapper.selectByUserName(authenticationToken.getUsername());
+        logger.info(sysUser.toString());
+        if (!authenticationToken.getUsername().equals(sysUser.getUsername())) {
             return null;
         }
-            return new SimpleAuthenticationInfo("",password,"");
+        return new SimpleAuthenticationInfo("", sysUser.getPassword(), "");
     }
 }

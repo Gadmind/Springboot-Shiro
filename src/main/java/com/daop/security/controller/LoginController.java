@@ -7,6 +7,8 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class LoginController {
     @PostMapping("/login")
     public ResultUtil login(String userName, String password) {
-        System.out.println(userName+""+password);
+        System.out.println(userName + "" + password);
         //获取当前用户
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(userName, password);
@@ -33,5 +35,12 @@ public class LoginController {
         } catch (AuthenticationException e) {
             return ResultUtil.otherError(ErrorEnum.NO_VERIFY);
         }
+    }
+
+    @RequiresRoles("admin")
+    @RequiresPermissions("add")
+    @GetMapping("/tt")
+    public ResultUtil tt() {
+        return new ResultUtil();
     }
 }

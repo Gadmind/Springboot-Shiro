@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.daop</groupId>
-    <artifactId>security</artifactId>
+    <artifactId>Springboot-Shiro</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>security</name>
+    <name>Springboot-Shiro</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>

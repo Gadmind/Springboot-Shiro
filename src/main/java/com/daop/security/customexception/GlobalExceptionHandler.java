@@ -3,6 +3,8 @@ package com.daop.security.customexception;
 import com.daop.security.customexception.DefinitionException;
 import com.daop.security.customexception.ErrorEnum;
 import com.daop.security.util.ResultUtil;
+import org.apache.shiro.authz.UnauthenticatedException;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -40,6 +42,12 @@ public class GlobalExceptionHandler {
     public ResultUtil otherExceptionHandler(Exception e) {
         if (e instanceof NoHandlerFoundException) {
             return ResultUtil.otherError(ErrorEnum.NOT_FOUND);
+        }
+        if (e instanceof UnauthenticatedException) {
+            return ResultUtil.otherError(ErrorEnum.NO_AUTH);
+        }
+        if (e instanceof UnauthorizedException) {
+            return ResultUtil.otherError(ErrorEnum.NO_PERMISSION);
         }
         return ResultUtil.otherError(ErrorEnum.INTERNAL_SERVER_ERROR);
     }

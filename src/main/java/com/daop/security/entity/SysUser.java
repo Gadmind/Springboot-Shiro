@@ -1,76 +1,44 @@
 package com.daop.security.entity;
 
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @BelongsProject: security
  * @BelongsPackage: com.daop.security.entity
  * @Description: ${DESCRIPTION}
- * @DATE: 2020-04-28 21:06
- * @AUTHOR: Daop
+ * @DATE: 2020-04-29
+ * @AUTHOR: Administrator
  **/
 public class SysUser implements Serializable {
     /**
     * 用户ID
     */
-    private Integer id;
-
-    /**
-    * 公司名称
-    */
-    private String companyname;
-
-    /**
-    * 登陆名
-    */
-    private String username;
+    private String id;
 
     /**
     * 用户名
     */
-    private String name;
+    private String username;
 
     /**
-    * 密码
+    * 用户密码
     */
     private String password;
-
     /**
-    * 用户邮箱
-    */
-    private String email;
-
-    /**
-    * 使用邮箱：1：使用；0：不使用
-    */
-    private Integer useemail;
-
-    /**
-    * 盐值
-    */
-    private String salt;
-
-    /**
-    * 用户状态
-    */
-    private String status;
+     * 用户对应的角色集合
+     */
+    private List<SysRole> roles;
 
     private static final long serialVersionUID = 1L;
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
-    }
-
-    public String getCompanyname() {
-        return companyname;
-    }
-
-    public void setCompanyname(String companyname) {
-        this.companyname = companyname;
     }
 
     public String getUsername() {
@@ -81,14 +49,6 @@ public class SysUser implements Serializable {
         this.username = username;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getPassword() {
         return password;
     }
@@ -97,54 +57,21 @@ public class SysUser implements Serializable {
         this.password = password;
     }
 
-    public String getEmail() {
-        return email;
+    public List<SysRole> getRoles() {
+        return roles;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Integer getUseemail() {
-        return useemail;
-    }
-
-    public void setUseemail(Integer useemail) {
-        this.useemail = useemail;
-    }
-
-    public String getSalt() {
-        return salt;
-    }
-
-    public void setSalt(String salt) {
-        this.salt = salt;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
+    public void setRoles(List<SysRole> roles) {
+        this.roles = roles;
     }
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", companyname=").append(companyname);
-        sb.append(", username=").append(username);
-        sb.append(", name=").append(name);
-        sb.append(", password=").append(password);
-        sb.append(", email=").append(email);
-        sb.append(", useemail=").append(useemail);
-        sb.append(", salt=").append(salt);
-        sb.append(", status=").append(status);
-        sb.append("]");
-        return sb.toString();
+        return "SysUser{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", roles=" + roles +
+                '}';
     }
 }

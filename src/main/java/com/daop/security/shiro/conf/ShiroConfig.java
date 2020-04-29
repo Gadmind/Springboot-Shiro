@@ -1,8 +1,11 @@
 package com.daop.security.shiro.conf;
 
 import com.daop.security.shiro.UserRealm;
+import org.apache.shiro.mgt.SecurityManager;
+import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -20,7 +23,19 @@ import java.util.Map;
  **/
 @Configuration
 public class ShiroConfig {
+    @Bean
+    public DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator() {
+        DefaultAdvisorAutoProxyCreator defaultAAP = new DefaultAdvisorAutoProxyCreator();
+        defaultAAP.setProxyTargetClass(true);
+        return defaultAAP;
+    }
 
+    /**
+     * filter过滤器
+     *
+     * @param defaultWebSecurityManager
+     * @return
+     */
     @Bean(name = "shiroFilterFactoryBean")
     public ShiroFilterFactoryBean shiroFilterFactoryBean(@Qualifier("defaultWebSecurityManager") DefaultWebSecurityManager defaultWebSecurityManager) {
         ShiroFilterFactoryBean bean = new ShiroFilterFactoryBean();
@@ -41,6 +56,12 @@ public class ShiroConfig {
         return bean;
     }
 
+    /**
+     * 权限管理，配置Realm的管理认证
+     *
+     * @param userRealm 自定义的realm
+     * @return 权限
+     */
     @Bean(name = "defaultWebSecurityManager")
     public DefaultWebSecurityManager defaultWebSecurityManager(@Qualifier("userRealm") UserRealm userRealm) {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
@@ -48,8 +69,20 @@ public class ShiroConfig {
         return securityManager;
     }
 
+    /**
+     * 注入自定义的Realm
+     *
+     * @return 自定义的Realm
+     */
     @Bean(name = "userRealm")
     public UserRealm userRealm() {
         return new UserRealm();
+    }
+
+    @Bean
+    public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(SecurityManager securityManager) {
+        AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
+        authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
+        return authorizationAttributeSourceAdvisor;
     }
 }

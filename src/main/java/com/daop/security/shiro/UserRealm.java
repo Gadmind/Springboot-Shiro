@@ -1,15 +1,18 @@
 package com.daop.security.shiro;
 
+import com.daop.security.customexception.DefinitionException;
 import com.daop.security.entity.SysUser;
 import com.daop.security.mapper.SysUserMapper;
+import com.daop.security.service.SysUserService;
+import com.daop.security.util.ResultUtil;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import sun.security.provider.MD5;
 
 /**
  * @BelongsProject: security
@@ -20,9 +23,9 @@ import sun.security.provider.MD5;
  **/
 
 public class UserRealm extends AuthorizingRealm {
-    @Autowired
-    SysUserMapper userMapper;
     Logger logger = LoggerFactory.getLogger(UserRealm.class);
+    @Autowired
+    SysUserService userService;
 
     /**
      * 授权信息
@@ -32,9 +35,17 @@ public class UserRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        logger.info("=====用户授权=====");
-
-        return null;
+        logger.info("========================================用户权限认证========================================");
+        String name = (String) principals.getPrimaryPrincipal();
+        SysUser sysUser = userService.getSysUserByUserName(name);
+        SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
+        sysUser.getRoles().forEach((role) -> {
+            simpleAuthorizationInfo.addRole(role.getRolename());
+            role.getPermissions().forEach((permission) -> {
+                simpleAuthorizationInfo.addStringPermission(permission.getPermissionname());
+            });
+        });
+        return simpleAuthorizationInfo;
     }
 
     /**
@@ -44,14 +55,15 @@ public class UserRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-        logger.info("====用户权限认证===");
+        logger.info("========================================用户授权认证========================================");
         if (null == token.getPrincipal()) {
             return null;
         }
         //获取到用户名
         String principal = token.getPrincipal().toString();
         //同数据库做比对
-        SysUser sysUser = userMapper.selectByUserName(principal);
+        SysUser sysUser = userService.getSysUserByUserName(principal);
+
         if (!principal.equals(sysUser.getUsername())) {
             return null;
         }

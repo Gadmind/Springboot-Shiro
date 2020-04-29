@@ -7,22 +7,22 @@ import com.daop.security.entity.SysUser;
  * @BelongsProject: security
  * @BelongsPackage: com.daop.security.mapper
  * @Description: ${DESCRIPTION}
- * @DATE: 2020-04-28 21:06
- * @AUTHOR: Daop
+ * @DATE: 2020-04-29
+ * @AUTHOR: Administrator
  **/
 public interface SysUserMapper extends BaseMapper<SysUser> {
+    int deleteByPrimaryKey(String id);
 
-    int deleteByPrimaryKey(Integer id);
-
+    @Override
     int insert(SysUser record);
 
     int insertSelective(SysUser record);
 
-    SysUser selectByPrimaryKey(Integer id);
-
-    SysUser selectByUserName(String userName);
+    SysUser selectByPrimaryKey(String id);
 
     int updateByPrimaryKeySelective(SysUser record);
 
     int updateByPrimaryKey(SysUser record);
+
+    SysUser selectSysUserByUserName(String userName);
 }

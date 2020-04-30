@@ -1,5 +1,9 @@
 package com.daop.security.service;
 
+import com.daop.security.entity.SysRole;
+
+import java.util.List;
+
 /**
  * @BelongsProject: security
  * @BelongsPackage: com.daop.security.service
@@ -8,4 +12,5 @@ package com.daop.security.service;
  * @AUTHOR: Administrator
  **/
 public interface SysRoleService {
+    List<SysRole> listRolesByUserId(String id);
 }

@@ -1,8 +1,13 @@
 package com.daop.security.service.impl;
 
+import com.daop.security.entity.SysPermission;
+import com.daop.security.mapper.SysPermissionMapper;
 import com.daop.security.service.SysPermissionService;
 import com.daop.security.service.SysPermissionService;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @BelongsProject: security
@@ -13,4 +18,11 @@ import org.springframework.stereotype.Service;
  **/
 @Service
 public class SysPermissionServiceImpl implements SysPermissionService {
+    @Resource
+    private SysPermissionMapper permissionMapper;
+    @Override
+    public List<SysPermission> listPsermissionsByRoleId(String id) {
+        return permissionMapper.selectPermissionByRoleId(id);
+
+    }
 }

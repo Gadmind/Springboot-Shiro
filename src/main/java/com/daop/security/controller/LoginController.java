@@ -7,6 +7,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
@@ -37,10 +38,10 @@ public class LoginController {
         }
     }
 
-    @RequiresRoles("admin")
-    @RequiresPermissions("add")
+    @RequiresRoles(value = {"superAdmin"},logical = Logical.OR)
+    @RequiresPermissions(value = {"add","edit","update","delete"},logical = Logical.OR)
     @GetMapping("/tt")
     public ResultUtil tt() {
-        return new ResultUtil();
+        return new ResultUtil(200,"有权限",null);
     }
 }

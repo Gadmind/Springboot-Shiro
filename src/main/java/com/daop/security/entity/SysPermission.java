@@ -38,10 +38,6 @@ public class SysPermission implements Serializable {
         this.permissionname = permissionname;
     }
 
-    public SysPermission(String id, String permissionname) {
-        this.id = id;
-        this.permissionname = permissionname;
-    }
 
     @Override
     public String toString() {

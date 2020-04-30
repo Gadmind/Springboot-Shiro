@@ -15,6 +15,10 @@ public class SysRole implements Serializable {
      * 角色ID
      */
     private String id;
+    /**
+     * 角色类型
+     */
+    private String roletype;
 
     /**
      * 角色名
@@ -51,10 +55,12 @@ public class SysRole implements Serializable {
         this.permissions = permissions;
     }
 
-    public SysRole(String id, String rolename, List<SysPermission> permissions) {
-        this.id = id;
-        this.rolename = rolename;
-        this.permissions = permissions;
+    public String getRoletype() {
+        return roletype;
+    }
+
+    public void setRoletype(String roletype) {
+        this.roletype = roletype;
     }
 
     @Override

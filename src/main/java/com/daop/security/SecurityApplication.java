@@ -14,9 +14,7 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication
 @MapperScan("com.daop.security.mapper")
 public class SecurityApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(SecurityApplication.class, args);
     }
-
 }

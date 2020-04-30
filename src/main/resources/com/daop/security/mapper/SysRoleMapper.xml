@@ -1,67 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.daop.security.mapper.SysRoleMapper">
-  <resultMap id="BaseResultMap" type="com.daop.security.entity.SysRole">
-    <!--@mbg.generated-->
-    <!--@Table sys_role-->
-    <id column="id" jdbcType="VARCHAR" property="id" />
-    <result column="roleName" jdbcType="VARCHAR" property="rolename" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    <!--@mbg.generated-->
-    id, roleName
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    <!--@mbg.generated-->
-    select 
-    <include refid="Base_Column_List" />
-    from sys_role
-    where id = #{id,jdbcType=VARCHAR}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    <!--@mbg.generated-->
-    delete from sys_role
-    where id = #{id,jdbcType=VARCHAR}
-  </delete>
-  <insert id="insert" parameterType="com.daop.security.entity.SysRole">
-    <!--@mbg.generated-->
-    insert into sys_role (id, roleName)
-    values (#{id,jdbcType=VARCHAR}, #{rolename,jdbcType=VARCHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="com.daop.security.entity.SysRole">
-    <!--@mbg.generated-->
-    insert into sys_role
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="rolename != null">
-        roleName,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=VARCHAR},
-      </if>
-      <if test="rolename != null">
-        #{rolename,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.daop.security.entity.SysRole">
-    <!--@mbg.generated-->
-    update sys_role
-    <set>
-      <if test="rolename != null">
-        roleName = #{rolename,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.daop.security.entity.SysRole">
-    <!--@mbg.generated-->
-    update sys_role
-    set roleName = #{rolename,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
+    <resultMap id="BaseResultMap" type="com.daop.security.entity.SysRole">
+        <!--@mbg.generated-->
+        <!--@Table sys_role-->
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="roleType" jdbcType="VARCHAR" property="roletype"/>
+        <result column="roleName" jdbcType="VARCHAR" property="rolename"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, roleType,roleName
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from sys_role
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        <!--@mbg.generated-->
+        delete from sys_role
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="com.daop.security.entity.SysRole">
+        <!--@mbg.generated-->
+        insert into sys_role (id, roleName)
+        values (#{id,jdbcType=VARCHAR}, #{rolename,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.daop.security.entity.SysRole">
+        <!--@mbg.generated-->
+        insert into sys_role
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="rolename != null">
+                roleName,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="rolename != null">
+                #{rolename,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.daop.security.entity.SysRole">
+        <!--@mbg.generated-->
+        update sys_role
+        <set>
+            <if test="rolename != null">
+                roleName = #{rolename,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.daop.security.entity.SysRole">
+        <!--@mbg.generated-->
+        update sys_role
+        set roleName = #{rolename,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <select id="selectRolesByUserId" resultMap="BaseResultMap">
+        select r.id,
+               r.roleType,
+               r.roleName
+        from sys_role r,
+             sys_user_role ur
+        where ur.roleId = r.id
+          AND ur.userId = #{id,jdbcType=VARCHAR}
+    </select>
 </mapper>

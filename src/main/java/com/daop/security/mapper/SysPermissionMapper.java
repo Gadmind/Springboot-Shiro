@@ -3,6 +3,8 @@ package com.daop.security.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.daop.security.entity.SysPermission;
 
+import java.util.List;
+
 /**
  * @BelongsProject: security
  * @BelongsPackage: com.daop.security.mapper
@@ -23,4 +25,6 @@ public interface SysPermissionMapper extends BaseMapper<SysPermission> {
     int updateByPrimaryKeySelective(SysPermission record);
 
     int updateByPrimaryKey(SysPermission record);
+
+    List<SysPermission> selectPermissionByRoleId(String id);
 }

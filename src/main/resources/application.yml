@@ -45,7 +45,7 @@ spring:
         # 登录用户名/密码
         login-username: root
         login-password: 123
-mybatis-plus:
-  mapper-locations: classpath:com/daop/security/mapper/*.xml
-  configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#mybatis-plus:
+#  mapper-locations: classpath:com/daop/security/mapper/*.xml
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

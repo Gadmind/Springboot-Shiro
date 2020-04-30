@@ -1,10 +1,7 @@
 package com.daop.security.shiro;
 
-import com.daop.security.customexception.DefinitionException;
 import com.daop.security.entity.SysUser;
-import com.daop.security.mapper.SysUserMapper;
 import com.daop.security.service.SysUserService;
-import com.daop.security.util.ResultUtil;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
@@ -26,7 +23,6 @@ public class UserRealm extends AuthorizingRealm {
     Logger logger = LoggerFactory.getLogger(UserRealm.class);
     @Autowired
     SysUserService userService;
-
     /**
      * 授权信息
      *
@@ -40,11 +36,13 @@ public class UserRealm extends AuthorizingRealm {
         SysUser sysUser = userService.getSysUserByUserName(name);
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
         sysUser.getRoles().forEach((role) -> {
-            simpleAuthorizationInfo.addRole(role.getRolename());
+            simpleAuthorizationInfo.addRole(role.getRoletype());
             role.getPermissions().forEach((permission) -> {
                 simpleAuthorizationInfo.addStringPermission(permission.getPermissionname());
             });
         });
+        System.out.println(simpleAuthorizationInfo.getRoles());
+        System.out.println(simpleAuthorizationInfo.getStringPermissions());
         return simpleAuthorizationInfo;
     }
 

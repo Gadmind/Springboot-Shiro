@@ -45,7 +45,13 @@ spring:
         # 登录用户名/密码
         login-username: root
         login-password: 123
-#mybatis-plus:
-#  mapper-locations: classpath:com/daop/security/mapper/*.xml
-#  configuration:
-#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+logging:
+  pattern:
+    console: '%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level [%logger{5}] %msg%n'
+    file: '%d{yyyy-MM-dd HH:mm} [%thread] %-5level %logger- %msg%n'
+    rolling-file-name: ${LOG_FILE}.%d{yyyy-MM-dd hh-mm-ss}.%i.log
+    level: INFO,WARN,ERROR,DEBUG
+  file:
+    max-size: 10KB
+    path:
+    name: application-log.log

@@ -1,14 +1,20 @@
 package com.daop.security.entity;
 
 import java.io.Serializable;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
- * @BelongsProject: security
+ * @BelongsProject: Springboot-Shiro
  * @BelongsPackage: com.daop.security.entity
  * @Description: ${DESCRIPTION}
- * @DATE: 2020-04-29
+ * @DATE: 2020-06-04
  * @AUTHOR: Administrator
  **/
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class SysPermission implements Serializable {
     /**
      * 权限ID
@@ -20,34 +26,10 @@ public class SysPermission implements Serializable {
      */
     private String permissionname;
 
+    /**
+     * 权限标识码
+     */
+    private String permissioncode;
+
     private static final long serialVersionUID = 1L;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getPermissionname() {
-        return permissionname;
-    }
-
-    public void setPermissionname(String permissionname) {
-        this.permissionname = permissionname;
-    }
-
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", permissionname=").append(permissionname);
-        sb.append("]");
-        return sb.toString();
-    }
 }

@@ -4,30 +4,26 @@
     <resultMap id="BaseResultMap" type="com.daop.security.entity.SysPermission">
         <!--@mbg.generated-->
         <!--@Table sys_permission-->
-        <id column="id" jdbcType="VARBINARY" property="id"/>
+        <id column="id" jdbcType="VARCHAR" property="id"/>
         <result column="permissionName" jdbcType="VARCHAR" property="permissionname"/>
+        <result column="permissionCode" jdbcType="VARCHAR" property="permissioncode"/>
     </resultMap>
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
-        id, permissionName
+        id, permissionName, permissionCode
     </sql>
-    <select id="selectByPrimaryKey" parameterType="String" resultMap="BaseResultMap">
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
         <!--@mbg.generated-->
         select
         <include refid="Base_Column_List"/>
         from sys_permission
-        where id = #{id,jdbcType=VARBINARY}
+        where id = #{id,jdbcType=VARCHAR}
     </select>
-    <delete id="deleteByPrimaryKey" parameterType="String">
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
         <!--@mbg.generated-->
         delete from sys_permission
-        where id = #{id,jdbcType=VARBINARY}
+        where id = #{id,jdbcType=VARCHAR}
     </delete>
-    <insert id="insert" parameterType="com.daop.security.entity.SysPermission">
-        <!--@mbg.generated-->
-        insert into sys_permission (id, permissionName)
-        values (#{id,jdbcType=VARBINARY}, #{permissionname,jdbcType=VARCHAR})
-    </insert>
     <insert id="insertSelective" parameterType="com.daop.security.entity.SysPermission">
         <!--@mbg.generated-->
         insert into sys_permission
@@ -38,13 +34,19 @@
             <if test="permissionname != null">
                 permissionName,
             </if>
+            <if test="permissioncode != null">
+                permissionCode,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">
-                #{id,jdbcType=VARBINARY},
+                #{id,jdbcType=VARCHAR},
             </if>
             <if test="permissionname != null">
                 #{permissionname,jdbcType=VARCHAR},
+            </if>
+            <if test="permissioncode != null">
+                #{permissioncode,jdbcType=VARCHAR},
             </if>
         </trim>
     </insert>
@@ -55,14 +57,18 @@
             <if test="permissionname != null">
                 permissionName = #{permissionname,jdbcType=VARCHAR},
             </if>
+            <if test="permissioncode != null">
+                permissionCode = #{permissioncode,jdbcType=VARCHAR},
+            </if>
         </set>
-        where id = #{id,jdbcType=VARBINARY}
+        where id = #{id,jdbcType=VARCHAR}
     </update>
     <update id="updateByPrimaryKey" parameterType="com.daop.security.entity.SysPermission">
         <!--@mbg.generated-->
         update sys_permission
-        set permissionName = #{permissionname,jdbcType=VARCHAR}
-        where id = #{id,jdbcType=VARBINARY}
+        set permissionName = #{permissionname,jdbcType=VARCHAR},
+        permissionCode = #{permissioncode,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=VARCHAR}
     </update>
     <select id="selectPermissionByRoleId" resultMap="BaseResultMap">
         SELECT p.id,
@@ -71,5 +77,13 @@
              sys_permission p
         where rp.permissionId = p.id
           AND rp.roleId = #{id,jdbcType=VARCHAR}
+    </select>
+    <select id="selectPermsByUserId" resultType="String">
+        select distinct p.permissionCode
+        from sys_permission p
+                 left join sys_role_permission rp on p.id = rp.permissionId
+                 left join sys_user_role ur on rp.roleId = ur.roleId
+                 left join sys_role r on r.id = ur.roleId
+        where ur.userId = #{id,jdbcType=VARCHAR}
     </select>
 </mapper>

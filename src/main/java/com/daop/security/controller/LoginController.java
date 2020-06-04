@@ -2,6 +2,7 @@ package com.daop.security.controller;
 
 import com.daop.security.customexception.DefinitionException;
 import com.daop.security.customexception.ErrorEnum;
+import com.daop.security.service.SysUserService;
 import com.daop.security.util.ResultUtil;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -11,9 +12,13 @@ import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @BelongsProject: security
@@ -24,9 +29,11 @@ import org.springframework.web.bind.annotation.RestController;
  **/
 @RestController
 public class LoginController {
+    @Autowired
+    private SysUserService sysUserService;
+
     @PostMapping("/login")
     public ResultUtil login(String userName, String password) {
-        System.out.println(userName + "" + password);
         //获取当前用户
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(userName, password);
@@ -38,10 +45,11 @@ public class LoginController {
         }
     }
 
-    @RequiresRoles(value = {"superAdmin"},logical = Logical.OR)
-    @RequiresPermissions(value = {"add","edit","update","delete"},logical = Logical.OR)
     @GetMapping("/tt")
-    public ResultUtil tt() {
-        return new ResultUtil(200,"有权限",null);
+    @RequiresPermissions("system:user:view")
+    @RequiresRoles(value = {"root", "admin"}, logical = Logical.OR)
+    public ResultUtil testPerms() {
+        System.out.println("我进来了");
+        return new ResultUtil(200, "权限正常", "权限正常");
     }
 }

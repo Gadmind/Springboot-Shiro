@@ -23,7 +23,7 @@ import java.util.*;
  **/
 @Service
 public class SysUserServiceImpl implements SysUserService {
-    Logger logger=LoggerFactory.getLogger(SysUserServiceImpl.class);
+    Logger logger = LoggerFactory.getLogger(SysUserServiceImpl.class);
     @Resource
     SysUserMapper userMapper;
     @Resource
@@ -34,14 +34,12 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     public SysUser getSysUserByUserName(String userName) {
         SysUser sysUser = userMapper.selectSysUserByUserName(userName);
-        logger.info(sysUser.toString());
+        return sysUser;
+    }
 
-        List<SysRole> roles = roleService.listRolesByUserId(sysUser.getId());
-        sysUser.setRoles(roles);
-        for (SysRole role : roles) {
-            List<SysPermission> permissions = permissionService.listPsermissionsByRoleId(role.getId());
-            role.setPermissions(permissions);
-        }
+    @Override
+    public SysUser getUserByLoginName(String username) {
+        SysUser sysUser = userMapper.selectSysUserByUserName(username);
         return sysUser;
     }
 

@@ -3,6 +3,7 @@ package com.daop.security.service;
 import com.daop.security.entity.SysPermission;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @BelongsProject: security
@@ -13,4 +14,6 @@ import java.util.List;
  **/
 public interface SysPermissionService {
     List<SysPermission> listPsermissionsByRoleId(String id);
+
+    Set<String> listPermissionsByUserId(String id);
 }

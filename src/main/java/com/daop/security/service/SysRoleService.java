@@ -3,6 +3,7 @@ package com.daop.security.service;
 import com.daop.security.entity.SysRole;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @BelongsProject: security
@@ -13,4 +14,6 @@ import java.util.List;
  **/
 public interface SysRoleService {
     List<SysRole> listRolesByUserId(String id);
+
+    Set<String> listRoleKeys(String UserId);
 }

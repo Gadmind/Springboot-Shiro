@@ -11,4 +11,6 @@ import com.daop.security.entity.SysUser;
  **/
 public interface SysUserService {
     SysUser getSysUserByUserName(String principal);
+
+    SysUser getUserByLoginName(String username);
 }
